@@ -18,6 +18,7 @@ const onClickAdd = () => {
   <div class="grid grid-cols-4 gap-5">
     <Card
       v-for="item in items"
+      :key="item.id"
       :imageURL="item.imageUrl"
       :title="item.title"
       :price="item.price"
@@ -25,7 +26,6 @@ const onClickAdd = () => {
       :isAdded="true"
       :onClickFavorite="onClickFavorite"
       :onClickAdd="onClickAdd"
-      :key="item.id"
     />
   </div>
 </template>
