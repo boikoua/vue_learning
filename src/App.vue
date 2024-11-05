@@ -9,7 +9,7 @@ import Drawer from './components/Drawer.vue';
 const items = ref([]);
 
 const filters = reactive({
-  sortBy: '',
+  sortBy: 'title',
   searchQuery: '',
 });
 
@@ -21,29 +21,30 @@ const onChangeSearch = event => {
   filters.searchQuery = event.target.value;
 };
 
-onMounted(async () => {
+const fetchItems = async () => {
   try {
+    const params = {
+      sortBy: filters.sortBy,
+    };
+
+    if (filters.searchQuery) {
+      params.title = `*${filters.searchQuery}*`;
+    }
+
     const { data } = await axios.get(
-      'https://1e2507bc8b8d8220.mokky.dev/items',
+      `https://1e2507bc8b8d8220.mokky.dev/items`,
+      { params },
     );
 
     items.value = data;
   } catch (error) {
     console.log(error);
   }
-});
+};
 
-watch(filters, async () => {
-  try {
-    const { data } = await axios.get(
-      `https://1e2507bc8b8d8220.mokky.dev/items?sortBy=${filters.sortBy}&title=*${filters.searchQuery}*`,
-    );
+onMounted(fetchItems);
 
-    items.value = data;
-  } catch (error) {
-    console.log(error);
-  }
-});
+watch(filters, fetchItems);
 </script>
 
 <template>
@@ -68,7 +69,7 @@ watch(filters, async () => {
           <div class="relative">
             <img class="absolute top-2 left-3" src="/search.svg" alt="Search" />
             <input
-              @change="onChangeSearch"
+              @input="onChangeSearch"
               class="border rounded-md py-1 pl-10 pr-4 outline-none focus:border-gray-400"
               type="text"
               placeholder="Пошук..."
