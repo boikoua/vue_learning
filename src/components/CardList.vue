@@ -1,5 +1,5 @@
 <script setup>
-import Card from './Card.vue';
+import CardItem from './CardItem.vue';
 
 const onClickFavorite = () => {
   alert('favorite');
@@ -12,7 +12,7 @@ const onClickAdd = () => {
 
 <template>
   <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-1.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
@@ -21,34 +21,34 @@ const onClickAdd = () => {
       :onClickFavorite="onClickFavorite"
       :onClickAdd="onClickAdd"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-2.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
       :isFavorite="false"
       :isAdded="true"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-3.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-4.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-5.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-6.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"
     />
-    <Card
+    <CardItem
       imageUrl="/sneakers/sneakers-7.jpg"
       title="Чоловічі кросівки Nike Blazer Mid Suede"
       :price="3000"

@@ -1,9 +1,12 @@
 <script setup>
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
+import Drawer from './components/Drawer.vue';
 </script>
 
 <template>
+  <!-- <Drawer /> -->
+
   <div class="w-11/12 lg:w-4/5 m-auto bg-zinc-100 rounded-2xl shadow-xl my-4 md:my-6 lg:my-10">
     <Header />
 
