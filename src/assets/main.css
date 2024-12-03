@@ -28,3 +28,9 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgb(181, 219, 150) #fff;
 }
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
