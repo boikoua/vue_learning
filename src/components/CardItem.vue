@@ -20,8 +20,8 @@ defineProps({
       alt="Like"
       @click="onClickFavorite"
     />
-    <img class="mb-3" :src="imageUrl" alt="Sneakers" />
-    <p class="mb-5">{{ title }}</p>
+    <img class="mb-3 md:h-56 m-auto" :src="imageUrl" alt="Sneakers" />
+    <p class="mb-5 md:min-h-12">{{ title }}</p>
 
     <div class="flex justify-between items-center">
       <div class="flex flex-col">
