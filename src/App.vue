@@ -1,9 +1,9 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, provide, reactive, ref, watch } from 'vue';
 
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
-import Drawer from './components/Drawer.vue';
+// import Drawer from './components/Drawer.vue';
 import axios from 'axios';
 
 const DATA_LINK = 'https://1e2507bc8b8d8220.mokky.dev/items';
@@ -44,7 +44,14 @@ const fetchItems = async () => {
     }
 
     const { data } = await axios.get(DATA_LINK, { params });
-    items.value = data;
+
+    items.value = data.map((item) => {
+      return {
+        ...item,
+        isFavorite: false,
+        isAdded: false,
+      };
+    });
   } catch {
     isError.value = 'Виникла помилка, перезавантажте сторінку...';
   } finally {
@@ -52,11 +59,41 @@ const fetchItems = async () => {
   }
 };
 
+const addToFavorite = (id) => {
+  items.value = items.value.map((item) => {
+    if (item.id === id) {
+      return {
+        ...item,
+        isFavorite: !item.isFavorite,
+      };
+    }
+
+    return item;
+  });
+};
+
+const addToCart = (id) => {
+  items.value = items.value.map((item) => {
+    if (item.id === id) {
+      return {
+        ...item,
+        isAdded: !item.isAdded,
+      };
+    }
+
+    return item;
+  });
+};
+
 // Хук, для запроса данных при монтировании компоненты
 onMounted(fetchItems);
 
 // Функция, которая следит за изменением переменной filters
 watch(filters, fetchItems);
+
+// Альтернатива контекста
+provide('addToFavorite', addToFavorite);
+provide('addToCart', addToCart);
 </script>
 
 <template>
