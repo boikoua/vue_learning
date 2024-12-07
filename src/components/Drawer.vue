@@ -1,6 +1,10 @@
 <script setup>
 import CartList from './CartList.vue';
 import DrawerHead from './DrawerHead.vue';
+
+defineProps({
+  items: Array,
+});
 </script>
 
 <template>

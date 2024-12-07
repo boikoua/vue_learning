@@ -3,14 +3,31 @@ import { onMounted, provide, reactive, ref, watch } from 'vue';
 
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
-// import Drawer from './components/Drawer.vue';
+import Drawer from './components/Drawer.vue';
 import axios from 'axios';
+import BurgerMenu from './components/BurgerMenu.vue';
 
 const DATA_LINK = 'https://1e2507bc8b8d8220.mokky.dev/items';
 
 const items = ref([]);
 const isError = ref('');
 const isLoading = ref(true);
+
+// Флаг для открытия корзины
+const drawerOpen = ref(false);
+
+// Функция для закрытия/открытия корзины
+const closeOrOpenDrawer = () => {
+  drawerOpen.value = !drawerOpen.value;
+};
+
+// Флаг для открытия бургер меню
+const burgerOpen = ref(false);
+
+// Функция для закрытия/открытия бургер меню
+const closeOrOpenBurger = () => {
+  burgerOpen.value = !burgerOpen.value;
+};
 
 // Реактив для хранения значений фильтрации
 // (применять для работы с объектами)
@@ -94,15 +111,21 @@ watch(filters, fetchItems);
 // Альтернатива контекста
 provide('addToFavorite', addToFavorite);
 provide('addToCart', addToCart);
+provide('isCloseDraw', closeOrOpenDrawer);
 </script>
 
 <template>
-  <!-- <Drawer /> -->
+  <Drawer v-if="drawerOpen" :items="items" />
+  <BurgerMenu
+    v-if="burgerOpen"
+    :isCloseBurger="closeOrOpenBurger"
+    :isOpenDraw="closeOrOpenDrawer"
+  />
 
   <div
     class="w-11/12 lg:w-4/5 m-auto bg-zinc-100 rounded-2xl shadow-xl my-4 md:my-6 lg:my-10 min-h-screen"
   >
-    <Header />
+    <Header :isOpenDraw="closeOrOpenDrawer" :isOpenBurger="closeOrOpenBurger" />
 
     <main class="p-4 md:p-10">
       <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5 md:mb-10">

@@ -1,3 +1,10 @@
+<script setup>
+defineProps({
+  isOpenDraw: Function,
+  isOpenBurger: Function,
+});
+</script>
+
 <template>
   <header
     class="flex justify-between items-center border-b border-slate-300 px-3 md:px-10 py-4 md:py-6"
@@ -13,6 +20,7 @@
     <ul class="hidden md:flex items-center gap-5">
       <li
         class="flex items-center gap-2 text-gray-400 hover:text-gray-600 cursor-pointer transition duration-300"
+        @click="isOpenDraw"
       >
         <img src="/cart.svg" alt="Cart" />
         <span>1205 ₴</span>
@@ -33,6 +41,11 @@
       </li>
     </ul>
 
-    <img class="block md:hidden w-7 cursor-pointer" src="/burger.svg" alt="Menu" />
+    <img
+      class="block md:hidden w-7 cursor-pointer"
+      src="/burger.svg"
+      alt="Menu"
+      @click="isOpenBurger"
+    />
   </header>
 </template>
