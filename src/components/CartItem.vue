@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   item: Object,
+  deleteFromCart: Function,
 });
 </script>
 
@@ -17,6 +18,7 @@ defineProps({
       class="h-8 self-end cursor-pointer transition opacity-40 hover:opacity-100 rounded-lg"
       src="/close.svg"
       alt="Delete"
+      @click="() => deleteFromCart(item.id)"
     />
   </article>
 </template>

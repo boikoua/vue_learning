@@ -31,7 +31,7 @@ defineProps({
         class="flex items-center gap-2 text-gray-400 hover:text-gray-600 cursor-pointer transition duration-300"
       >
         <img src="/heart.svg" alt="Cart" />
-        <span>Збереження</span>
+        <span>Обране</span>
       </li>
 
       <li

@@ -1,4 +1,6 @@
 <script setup>
+import { inject } from 'vue';
+
 const props = defineProps({
   isOpenDrawer: Function,
   isCloseBurger: Function,
@@ -10,6 +12,8 @@ const isCloseBurgerAndOpenCart = () => {
     props.isOpenDrawer();
   }, 100);
 };
+
+const totalSum = inject('totalSum');
 </script>
 
 <template>
@@ -27,14 +31,14 @@ const isCloseBurgerAndOpenCart = () => {
       @click="isCloseBurgerAndOpenCart"
     >
       <img src="/cart.svg" alt="Cart" />
-      <span>Корзина (1205 ₴)</span>
+      <span>Корзина ({{ totalSum }} ₴)</span>
     </li>
 
     <li
       class="flex items-center gap-2 text-xl text-gray-400 hover:text-gray-600 cursor-pointer transition duration-300"
     >
       <img src="/heart.svg" alt="Cart" />
-      <span>Збереження</span>
+      <span>Обране</span>
     </li>
 
     <li

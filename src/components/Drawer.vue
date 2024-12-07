@@ -8,8 +8,7 @@ defineProps({
 });
 
 const totalSum = inject('totalSum');
-
-const taxSum = Math.round(totalSum.value * 0.25);
+const taxSum = inject('taxSum');
 </script>
 
 <template>

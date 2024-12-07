@@ -112,6 +112,8 @@ const totalSum = computed(() =>
   items.value.filter((item) => item.isAdded).reduce((acc, item) => acc + item.price, 0),
 );
 
+const taxSum = computed(() => Math.round(totalSum.value * 0.25));
+
 // Хук, для запроса данных при монтировании компоненты
 onMounted(fetchItems);
 
@@ -124,6 +126,7 @@ provide('addToCart', addToCart);
 provide('isCloseDraw', closeOrOpenDrawer);
 provide('items', items);
 provide('totalSum', totalSum);
+provide('taxSum', taxSum);
 </script>
 
 <template>
