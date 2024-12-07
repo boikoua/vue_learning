@@ -92,6 +92,8 @@ const addToFavorite = (id) => {
 
     return item;
   });
+
+  localStorage.setItem('items', JSON.stringify(items.value));
 };
 
 const addToCart = (id) => {
@@ -105,6 +107,8 @@ const addToCart = (id) => {
 
     return item;
   });
+
+  localStorage.setItem('items', JSON.stringify(items.value));
 };
 
 // Подсчет общей суммы товаров в корзине
@@ -114,8 +118,25 @@ const totalSum = computed(() =>
 
 const taxSum = computed(() => Math.round(totalSum.value * 0.25));
 
+// Функция для отправки заказа
+const sendOrder = () => {
+  items.value = items.value.map((item) => {
+    return {
+      ...item,
+      isAdded: false,
+    };
+  });
+};
+
 // Хук, для запроса данных при монтировании компоненты
-onMounted(fetchItems);
+onMounted(async () => {
+  const isKey = localStorage.getItem('items');
+  if (!isKey) {
+    await fetchItems();
+  } else {
+    items.value = JSON.parse(localStorage.getItem('items'));
+  }
+});
 
 // Функция, которая следит за изменением переменной filters
 watch(filters, fetchItems);
@@ -130,7 +151,8 @@ provide('taxSum', taxSum);
 </script>
 
 <template>
-  <Drawer v-if="drawerOpen" :items="items" />
+  <Drawer v-if="drawerOpen" :items="items" :sendOrder="sendOrder" />
+
   <BurgerMenu
     v-if="burgerOpen"
     :isCloseBurger="closeOrOpenBurger"
