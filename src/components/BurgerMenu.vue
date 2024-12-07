@@ -1,14 +1,14 @@
 <script setup>
 const props = defineProps({
-  isOpenDraw: Function,
+  isOpenDrawer: Function,
   isCloseBurger: Function,
 });
 
 const isCloseBurgerAndOpenCart = () => {
   props.isCloseBurger();
   setTimeout(() => {
-    props.isOpenDraw();
-  }, 100); // Укажите задержку, если нужно
+    props.isOpenDrawer();
+  }, 100);
 };
 </script>
 

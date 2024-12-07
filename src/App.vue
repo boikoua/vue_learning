@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, provide, reactive, ref, watch } from 'vue';
+import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
 
 import Header from './components/Header.vue';
 import CardList from './components/CardList.vue';
@@ -45,6 +45,11 @@ const onChangeSelect = (event) => {
 // Хендл для обработки инпута
 const onChangeSearch = (event) => {
   filters.searchValue = event.target.value;
+};
+
+// Функция очистки поиска
+const clearSearch = () => {
+  filters.searchValue = '';
 };
 
 // Функция для запроса данных
@@ -102,6 +107,11 @@ const addToCart = (id) => {
   });
 };
 
+// Подсчет общей суммы товаров в корзине
+const totalSum = computed(() =>
+  items.value.filter((item) => item.isAdded).reduce((acc, item) => acc + item.price, 0),
+);
+
 // Хук, для запроса данных при монтировании компоненты
 onMounted(fetchItems);
 
@@ -112,6 +122,8 @@ watch(filters, fetchItems);
 provide('addToFavorite', addToFavorite);
 provide('addToCart', addToCart);
 provide('isCloseDraw', closeOrOpenDrawer);
+provide('items', items);
+provide('totalSum', totalSum);
 </script>
 
 <template>
@@ -119,13 +131,17 @@ provide('isCloseDraw', closeOrOpenDrawer);
   <BurgerMenu
     v-if="burgerOpen"
     :isCloseBurger="closeOrOpenBurger"
-    :isOpenDraw="closeOrOpenDrawer"
+    :isOpenDrawer="closeOrOpenDrawer"
   />
 
   <div
     class="w-11/12 lg:w-4/5 m-auto bg-zinc-100 rounded-2xl shadow-xl my-4 md:my-6 lg:my-10 min-h-screen"
   >
-    <Header :isOpenDraw="closeOrOpenDrawer" :isOpenBurger="closeOrOpenBurger" />
+    <Header
+      :totalSum="totalSum"
+      :isOpenDrawer="closeOrOpenDrawer"
+      :isOpenBurger="closeOrOpenBurger"
+    />
 
     <main class="p-4 md:p-10">
       <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5 md:mb-10">
@@ -146,11 +162,18 @@ provide('isCloseDraw', closeOrOpenDrawer);
           <div class="relative">
             <img class="absolute top-3 left-2" src="/search.svg" alt="Search" />
             <input
-              class="border w-full md:w-56 lg:w-80 border-gray-200 rounded-md py-2 pl-8 pr-2 outline-none focus:border-gray-400"
+              class="border w-full md:w-56 lg:w-80 border-gray-200 rounded-md py-2 px-8 outline-none focus:border-gray-400"
               type="text"
               placeholder="Пошук..."
               :value="filters.searchValue"
               @input="onChangeSearch"
+            />
+            <img
+              v-if="filters.searchValue"
+              class="absolute w-5 top-3 right-2 cursor-pointer"
+              src="/clear.svg"
+              alt="Clear"
+              @click="clearSearch"
             />
           </div>
         </div>

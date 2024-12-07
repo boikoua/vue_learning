@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
-  isOpenDraw: Function,
+  totalSum: Number,
+  isOpenDrawer: Function,
   isOpenBurger: Function,
 });
 </script>
@@ -20,10 +21,10 @@ defineProps({
     <ul class="hidden md:flex items-center gap-5">
       <li
         class="flex items-center gap-2 text-gray-400 hover:text-gray-600 cursor-pointer transition duration-300"
-        @click="isOpenDraw"
+        @click="isOpenDrawer"
       >
         <img src="/cart.svg" alt="Cart" />
-        <span>1205 ₴</span>
+        <span>{{ totalSum }} ₴</span>
       </li>
 
       <li

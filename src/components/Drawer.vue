@@ -1,10 +1,15 @@
 <script setup>
+import { inject } from 'vue';
 import CartList from './CartList.vue';
 import DrawerHead from './DrawerHead.vue';
 
 defineProps({
   items: Array,
 });
+
+const totalSum = inject('totalSum');
+
+const taxSum = Math.round(totalSum.value * 0.25);
 </script>
 
 <template>
@@ -20,13 +25,13 @@ defineProps({
         <div class="flex gap-2">
           <span>Всього:</span>
           <div class="relative bottom-1 flex-1 border-b-2 border-dotted"></div>
-          <b>12999 ₴</b>
+          <b>{{ totalSum }} ₴</b>
         </div>
 
         <div class="flex gap-2 mb-4">
           <span>ПДВ 25%:</span>
           <div class="relative bottom-1 flex-1 border-b-2 border-dotted"></div>
-          <b>999 ₴</b>
+          <b>{{ taxSum }} ₴</b>
         </div>
 
         <button
