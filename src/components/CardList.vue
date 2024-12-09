@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-  <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+  <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" v-auto-animate>
     <CardItem
       v-for="item in items"
       :key="item.id"

@@ -17,7 +17,7 @@ const deleteFromCart = (id) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 mb-4">
+  <div class="flex flex-col gap-4 mb-4" v-auto-animate>
     <CartItem
       v-for="item in itemsInCart"
       :key="item.id"
