@@ -13,6 +13,8 @@ const deleteFromCart = (id) => {
   if (findIndex !== -1) {
     items.value[findIndex].isAdded = false;
   }
+
+  localStorage.setItem('items', JSON.stringify(items.value));
 };
 </script>
 

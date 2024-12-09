@@ -1,10 +1,10 @@
 <script setup>
 import { computed, onMounted, provide, reactive, ref, watch } from 'vue';
-
-import Header from './components/Header.vue';
-import CardList from './components/CardList.vue';
-import Drawer from './components/Drawer.vue';
 import axios from 'axios';
+
+import Home from './pages/Home.vue';
+import Header from './components/Header.vue';
+import Drawer from './components/Drawer.vue';
 import BurgerMenu from './components/BurgerMenu.vue';
 
 const DATA_LINK = 'https://1e2507bc8b8d8220.mokky.dev/items';
@@ -67,13 +67,21 @@ const fetchItems = async () => {
 
     const { data } = await axios.get(DATA_LINK, { params });
 
+    // Достаем данные из localStorage
+    const storedItems = JSON.parse(localStorage.getItem('items')) || [];
+
+    // Сравниваем и обновляем свойства
     items.value = data.map((item) => {
+      const storedItem = storedItems.find((stored) => stored.id === item.id);
+
       return {
         ...item,
-        isFavorite: false,
-        isAdded: false,
+        isFavorite: storedItem ? storedItem.isFavorite : false,
+        isAdded: storedItem ? storedItem.isAdded : false,
       };
     });
+
+    localStorage.setItem('items', JSON.stringify(items.value));
   } catch {
     isError.value = 'Виникла помилка, перезавантажте сторінку...';
   } finally {
@@ -126,11 +134,14 @@ const sendOrder = () => {
       isAdded: false,
     };
   });
+
+  localStorage.setItem('items', JSON.stringify(items.value));
 };
 
 // Хук, для запроса данных при монтировании компоненты
 onMounted(async () => {
   const isKey = localStorage.getItem('items');
+
   if (!isKey) {
     await fetchItems();
   } else {
@@ -169,42 +180,12 @@ provide('taxSum', taxSum);
     />
 
     <main class="p-4 md:p-10">
-      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-5 md:mb-10">
-        <h2 class="text-2xl md:text-4xl font-bold">Усі кросівки</h2>
-
-        <div class="flex flex-col md:flex-row gap-4">
-          <select
-            class="w-full md:w-32 py-2 px-3 border border-gray-200 rounded-md"
-            @change="onChangeSelect"
-            v-model="filters.sortBy"
-          >
-            <option value="-title">По назві (⭡)</option>
-            <option value="title">По назві (⭣)</option>
-            <option value="-price">По ціні (⭡)</option>
-            <option value="price">По ціні (⭣)</option>
-          </select>
-
-          <div class="relative">
-            <img class="absolute top-3 left-2" src="/search.svg" alt="Search" />
-            <input
-              class="border w-full md:w-56 lg:w-80 border-gray-200 rounded-md py-2 px-8 outline-none focus:border-gray-400"
-              type="text"
-              placeholder="Пошук..."
-              :value="filters.searchValue"
-              @input="onChangeSearch"
-            />
-            <img
-              v-if="filters.searchValue"
-              class="absolute w-5 top-3 right-2 cursor-pointer"
-              src="/clear.svg"
-              alt="Clear"
-              @click="clearSearch"
-            />
-          </div>
-        </div>
-      </div>
-
-      <CardList :items="items" />
+      <Home
+        :filters="filters"
+        :onChangeSelect="onChangeSelect"
+        :onChangeSearch="onChangeSearch"
+        :clearSearch="clearSearch"
+      />
     </main>
   </div>
 </template>
