@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+import MyTodoComponent from './components/MyTodoComponent.vue';
+</script>
 
 <template>
-  <main></main>
+  <main>
+    <MyTodoComponent />
+  </main>
 </template>
 
 <style scoped></style>
