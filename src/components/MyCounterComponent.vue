@@ -1,15 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
-const count = ref(0);
+// const count = ref(0);
+
+const state = reactive({
+  count: 0,
+  title: 'Count value is',
+});
 
 const increment = () => {
-  count.value++;
+  state.count++;
 };
 
 const decrement = () => {
-  if (count.value > 0) {
-    count.value--;
+  if (state.count > 0) {
+    state.count--;
   }
 };
 </script>
@@ -17,7 +22,7 @@ const decrement = () => {
 <template>
   <div>
     <h2>
-      Count value is: <span>{{ count }}</span>
+      {{ state.title }}: <span>{{ state.count }}</span>
     </h2>
 
     <div class="btns">
