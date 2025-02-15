@@ -1,30 +1,34 @@
-<script setup lang="ts">
-import { onMounted, ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 
-let userName = 'Boiko Dmitry';
+let id = 0;
 
-let newUserName = ref('Vlad Sokolov');
+const newTodo = ref('');
+const todos = ref([
+  { id: id++, text: 'Изучить HTML' },
+  { id: id++, text: 'Изучить JavaScript' },
+  { id: id++, text: 'Изучить Vue' },
+]);
 
-const users = ['Dima', 'Vlad', 'Artur'];
-
-function changeName(event: Event) {
-  const target = event.target as HTMLButtonElement;
-  newUserName.value += '10';
-  target.disabled = true;
+function addTodo() {
+  todos.value = [...todos.value, { id: id++, text: newTodo.value }];
+  newTodo.value = '';
 }
 
-let h2 = ref();
+function removeTodo(todo) {
+  todos.value = todos.value.filter((item) => item.id !== todo.id);
+}
 </script>
 
 <template>
-  <h1>Welcome home, {{ userName }}</h1>
-
-  <h2>User List</h2>
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo" required placeholder="new todo" />
+    <button>Добавить задачу</button>
+  </form>
   <ul>
-    <li v-for="user in users" :key="user">{{ user.toUpperCase() }}</li>
+    <li v-for="todo in todos" :key="todo.id">
+      {{ todo.text }}
+      <button @click="removeTodo(todo)">X</button>
+    </li>
   </ul>
-
-  <h2 ref="h2">I'm {{ newUserName }}</h2>
-
-  <button @click="changeName">Change Name</button>
 </template>
