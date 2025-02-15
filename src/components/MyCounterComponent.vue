@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { computed, onUnmounted, reactive, ref, watch } from 'vue';
 
 // const count = ref(0);
 
@@ -8,26 +8,75 @@ const state = reactive({
   title: 'Count value is',
 });
 
+let timer = null;
+
+const startTimer = () => {
+  if (!timer) {
+    timer = setInterval(() => {
+      state.count++;
+    }, 1000);
+  }
+};
+
+const stopTimer = () => {
+  if (timer) {
+    clearInterval(timer);
+    timer = null;
+  }
+};
+
+onUnmounted(() => {
+  clearInterval(timer);
+});
+
 const increment = () => {
   state.count++;
+  stopTimer();
 };
 
 const decrement = () => {
   if (state.count > 0) {
     state.count--;
   }
+  stopTimer();
 };
+
+const reset = () => {
+  state.count = 0;
+  stopTimer();
+};
+
+const dynamicTitle = computed(() => {
+  return state.count > 10 ? '🔥 High count!' : 'Count value is';
+});
+
+watch(
+  () => state.count,
+  () => {
+    console.log(state.count);
+  }
+);
 </script>
 
 <template>
   <div>
     <h2>
-      {{ state.title }}: <span>{{ state.count }}</span>
+      {{ dynamicTitle }}:
+      <span
+        :style="{
+          color:
+            state.count === 0 ? 'green' : state.count > 5 ? 'purple' : 'orange',
+        }"
+        >{{ state.count }}</span
+      >
     </h2>
 
     <div class="btns">
       <button @click="increment">+</button>
+      <button @click="reset">Reset</button>
       <button @click="decrement">-</button>
+      <button @click="startTimer">Start timer</button>
+      <button @click="stopTimer">Stop timer</button>
     </div>
   </div>
 </template>

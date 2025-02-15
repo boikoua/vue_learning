@@ -1,11 +1,7 @@
-<script setup>
-import MyCounterComponent from './components/MyCounterComponent.vue';
-</script>
+<script setup></script>
 
 <template>
-  <main>
-    <MyCounterComponent />
-  </main>
+  <main></main>
 </template>
 
 <style scoped></style>
