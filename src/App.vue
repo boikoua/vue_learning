@@ -1,34 +1,42 @@
 <script setup>
-const user = 'John';
+import { ref } from 'vue';
 
-function greeting() {
-  console.log(`Hello ${user}`);
-}
+const visible = ref(true);
 
-const clickFunc = () => {
-  console.log('Click event!');
-};
+const isShow = ref(true);
 
-const blurFunc = () => {
-  console.log('Blur event!');
-};
+const day = 4;
 
-function getDayOfWeek(num) {
-  return new Date(2025, 1, num).getDay();
-}
-
-function showDay(num) {
-  return getDayOfWeek(num);
-}
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 </script>
 
 <template>
-  <button @click="clickFunc" @mouseenter="blurFunc">Click show</button>
-  <br />
-  <br />
-  <button @click="greeting">Click greeting</button>
+  <!-- v-if, v-else, v-else-if -->
+  <button @click="() => (visible = !visible)">{{ visible ? 'Hide' : 'Show' }}</button>
 
-  <p>{{ showDay(21) }}</p>
+  <div v-if="visible">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi, ipsa praesentium ex vel odit
+    perferendis distinctio excepturi rerum delectus nihil?
+  </div>
+  <div v-else>This content is hidden</div>
+
+  <div class="days">
+    <p v-if="day === 0">{{ days[0] }}</p>
+    <p v-if="day === 1">{{ days[1] }}</p>
+    <p v-if="day === 2">{{ days[2] }}</p>
+    <p v-if="day === 3">{{ days[3] }}</p>
+    <p v-if="day === 4">{{ days[4] }}</p>
+    <p v-if="day === 5">{{ days[5] }}</p>
+    <p v-if="day === 6">{{ days[6] }}</p>
+  </div>
+
+  <!-- v-show -->
+  <button @click="() => (isShow = !isShow)">{{ isShow ? 'hide' : 'show' }}</button>
+  <p v-show="isShow">Lorem ipsum dolor sit amet.</p>
 </template>
 
-<style scoped></style>
+<style scoped>
+.days {
+  border: 1px solid gray;
+}
+</style>
