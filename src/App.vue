@@ -1,42 +1,94 @@
 <script setup>
-import { ref } from 'vue';
+const items = ['John', 'David', 'Eddy', 'Carol', 'Katie'];
 
-const visible = ref(true);
+const users = {
+  user1: '100$',
+  user2: '200$',
+  user3: '300$',
+};
 
-const isShow = ref(true);
-
-const day = 4;
-
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const products = [
+  {
+    name: 'product1',
+    price: 100,
+    quantity: 5,
+  },
+  {
+    name: 'product2',
+    price: 200,
+    quantity: 4,
+  },
+  {
+    name: 'product3',
+    price: 300,
+    quantity: 3,
+  },
+];
 </script>
 
 <template>
-  <!-- v-if, v-else, v-else-if -->
-  <button @click="() => (visible = !visible)">{{ visible ? 'Hide' : 'Show' }}</button>
+  <ul>
+    <li v-for="(item, index) in items" :key="index">{{ item }}</li>
+  </ul>
 
-  <div v-if="visible">
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi, ipsa praesentium ex vel odit
-    perferendis distinctio excepturi rerum delectus nihil?
-  </div>
-  <div v-else>This content is hidden</div>
+  <ul>
+    <li v-for="(user, key, index) in users" :key="key">{{ `${key} - ${user} - ${index + 1}` }}</li>
+  </ul>
 
-  <div class="days">
-    <p v-if="day === 0">{{ days[0] }}</p>
-    <p v-if="day === 1">{{ days[1] }}</p>
-    <p v-if="day === 2">{{ days[2] }}</p>
-    <p v-if="day === 3">{{ days[3] }}</p>
-    <p v-if="day === 4">{{ days[4] }}</p>
-    <p v-if="day === 5">{{ days[5] }}</p>
-    <p v-if="day === 6">{{ days[6] }}</p>
-  </div>
+  <ul>
+    <template v-for="(item, index) in items" :key="index">
+      <li>{{ item }}</li>
+      <li class="divider"></li>
+    </template>
+  </ul>
 
-  <!-- v-show -->
-  <button @click="() => (isShow = !isShow)">{{ isShow ? 'hide' : 'show' }}</button>
-  <p v-show="isShow">Lorem ipsum dolor sit amet.</p>
+  <table>
+    <caption>
+      Products
+    </caption>
+    <tr>
+      <th>index</th>
+      <th>name</th>
+      <th>price</th>
+      <th>quantity</th>
+    </tr>
+
+    <tr v-for="(prod, index) in products" :key="index">
+      <td>{{ index }}</td>
+      <td>{{ prod.name }}</td>
+      <td>{{ prod.price }}</td>
+      <td>{{ prod.quantity }}</td>
+    </tr>
+  </table>
+
+  <ul>
+    <template v-for="item in items" :key="item">
+      <li v-if="item.length < 5">{{ item }}</li>
+    </template>
+  </ul>
 </template>
 
 <style scoped>
-.days {
-  border: 1px solid gray;
+.divider {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background-color: gray;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 2px solid gray;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
 }
 </style>
